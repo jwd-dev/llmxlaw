@@ -43,7 +43,7 @@ def create_index():
   with open('readme.txt', 'w') as f:
       f.write(text)
   
-  preprocessor = PreProcessor()
+  preprocessor = PreProcessor(split_length=500)
 
   indexing_pipeline = Pipeline()
   indexing_pipeline.add_node(component=converter, name="PDFConverter", inputs=["File"])

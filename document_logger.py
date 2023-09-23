@@ -66,7 +66,7 @@ class DocumentLogger(BaseComponent):
                         from llmxlaw import server
                         server.database_fake.append([document['event_name'], document['event_description'], document['start_time'], document['end_time'], doc.id])
                 except:
-                    pass
+                    print(response.choices[0].message.content)
 
         return {"documents": documents}, "output_1"
 
