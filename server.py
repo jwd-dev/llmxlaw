@@ -14,9 +14,24 @@ from document_logger import DocumentLogger
 import uvicorn
 from database import Database
 
+from fastapi.middleware.cors import CORSMiddleware
+
+
 load_dotenv()
 
 app = FastAPI()
+
+origins = [
+  "*"
+]
+
+app.add_middleware(
+  CORSMiddleware,
+  allow_origins=origins,
+  allow_credentials=True,
+  allow_methods=["*"],
+  allow_headers=["*"],
+)
 database = Database()
 database_fake = [["Conspiracy to Cause Damage to Protected Computers","Paras Jha and other individuals conspired to knowingly cause damage to protected computers","07-01-2016","10-04-2016","2a0d34ff25586b6f1a17d474da5e3c0"],["Operation and Advertising of Mirai Botnet","Paras Jha used monikers like 'ogmemes' and 'Anna Senpai' to advertise the botnet and discuss its capabilities on cyber criminal discussion boards. Jha and his co-conspirators actively sought criminal clients for Mirai, serving as a point of contact for leasing the botnet and negotiating with prospective customers to generate illicit proceeds.","08-01-2016","09-30-2016","ad1df510958ef711da23e40cd26f9202"]]
 # Code from main.py to create index
