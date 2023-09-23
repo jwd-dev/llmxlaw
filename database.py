@@ -22,7 +22,7 @@ class Database:
     conn.commit()
 
   def query_events(self):
-    c.execute("SELECT * FROM 'Events'")
+    c.execute("SELECT * FROM 'Events' ORDER BY 'start_time' ASC")
     return c.fetchall()
   
 
