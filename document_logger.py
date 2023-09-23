@@ -1,4 +1,5 @@
 import json
+import os
 from typing import Dict, List, Tuple, Optional
 
 import openai
@@ -27,17 +28,29 @@ class DocumentLogger(BaseComponent):
         if documents:
             for doc in documents:
                 response = openai.ChatCompletion.create(
-                    model="gpt-4",
-                    api_key='xxx',
+                    model = "gpt-4",
+                    api_key = os.getenv("OPENAI_API_KEY"),
                     messages=[
                         {"role": "system",
-                         "content": "Extract timeline events from this paragraph, use the following format. Write N/A if the line does not have an event associated with it. {'event_name','event_description', 'mm-dd-yyyy mm-dd-yyyy'}"},
+                         "content": "Extract timeline events from this paragraph, use the following format. Write N/A if the line does not have an event associated with it. "+"""
+                         {
+	"event_name": "event name",
+	"event_description": "event description",
+	"time": "mm-dd-yyyy mm-dd-yyyy"
+}
+                         """},
                         {"role": "user",
                          "content": "In or about July 2016, Jha wrote and implemented computer code with his co-conspirators that enabled them to control and direct devices infected with the Mirai malware. Over 300,000 devices ultimately became part of the Mirai botnet and were used by Jha and others to unlawfully participate in DDOS attacks and other criminal activity. Some of these devices were located in the District of Alaska."},
                         {"role": "assistant",
-                         "content": "{'computer code written', 'jha wrote and implemented computer code that was teh mirai malware', '07-01-2016 07-01-2016"},
+                         "content": """
+                         {
+	"event_name": "Imposition of Sentence on Paras Jha",
+	"event_description": "The court hearing for the imposition of sentence on Paras Jha took place",
+	"time": "09-18-2018 09-18-2018"
+}
+                         """},
                         {"role": "user",
-                         "content": str(doc.content)}
+                         "content": str(doc.content.replace("\'","\""))}
                     ]
                 )
                 try:
