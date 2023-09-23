@@ -43,7 +43,6 @@ indexing_pipeline.add_node(component=retriever, name="Retriever", inputs=["Docum
 indexing_pipeline.add_node(component=document_store, name="DocumentStore", inputs=["Retriever"])
 
 indexing_pipeline.run(file_paths=['readme.txt'])
-
 #
 # prompt_template = PromptTemplate(prompt=""""Given the provided Documents, answer the Query. Make your answer detailed and long\n
 #                                               Query: {query}\n

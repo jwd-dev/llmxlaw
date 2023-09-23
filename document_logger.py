@@ -6,7 +6,6 @@ import openai
 from haystack import Document
 from haystack.nodes.base import BaseComponent
 
-from llmxlaw import database, server
 
 
 class DocumentLogger(BaseComponent):
@@ -29,9 +28,12 @@ class DocumentLogger(BaseComponent):
         :return: The same list of documents without any modification.
         """
         if documents:
+            index = 0
             for doc in documents:
+                print(str(index)+" out of "+str(len(documents)))
+                index = index +1
                 response = openai.ChatCompletion.create(
-                    model = "gpt-3.5k-turbo",
+                    model = "gpt-3.5-turbo",
                     api_key = os.getenv("OPENAI_API_KEY"),
                     messages=[
                         {"role": "system",
@@ -61,7 +63,8 @@ class DocumentLogger(BaseComponent):
                 try:
                     if json.loads(response.choices[0].message.content)['time'] != "N/A":
                         document = json.loads(response.choices[0].message.content)
-                        server.database.add_event(document['event_name'], document['event_description'], document['time'], doc.id)
+                        from llmxlaw import server
+                        server.database_fake.append([document['event_name'], document['event_description'], document['start_time'], document['end_time'], doc.id])
                 except:
                     pass
 

@@ -18,7 +18,7 @@ load_dotenv()
 
 app = FastAPI()
 database = Database()
-
+database_fake = []
 # Code from main.py to create index
 document_store = WeaviateDocumentStore(host="http://localhost",
                                         port=8080,
@@ -58,7 +58,7 @@ def create_index():
 # curl -X POST "http://0.0.0.0:8000/query_index" \
 #      -H "Content-Type: application/json" \
 #      -d '{"query": "DDOS", "top_k": 5}'
-@app.post("/query_index")
+@app.get("/query_index")
 def query_index(body: dict):
   query = body.get('query')
   top_k = body.get('top_k', 5)
@@ -81,9 +81,9 @@ def query_index(body: dict):
   result = query_pipeline.run(query=query, params={"Retriever": {"top_k": top_k}})
   return result
 
-@app.post("/list_timeline")
-def query_index(body: dict):
-  print(database.query_events())
+@app.get("/list_timeline")
+def query_index():
+  print(database_fake)
 
 
 if __name__ == "__main__":
