@@ -18,7 +18,7 @@ load_dotenv()
 
 app = FastAPI()
 database = Database()
-database_fake = []
+database_fake = [["Conspiracy to Cause Damage to Protected Computers","Paras Jha and other individuals conspired to knowingly cause damage to protected computers","07-01-2016","10-04-2016","2a0d34ff25586b6f1a17d474da5e3c0"],["Operation and Advertising of Mirai Botnet","Paras Jha used monikers like 'ogmemes' and 'Anna Senpai' to advertise the botnet and discuss its capabilities on cyber criminal discussion boards. Jha and his co-conspirators actively sought criminal clients for Mirai, serving as a point of contact for leasing the botnet and negotiating with prospective customers to generate illicit proceeds.","08-01-2016","09-30-2016","ad1df510958ef711da23e40cd26f9202"]]
 # Code from main.py to create index
 document_store = WeaviateDocumentStore(host="http://localhost",
                                         port=8080,
@@ -36,14 +36,14 @@ retriever = EmbeddingRetriever(
 @app.get("/create_index")
 def create_index():
   timeline_finder = DocumentLogger(database_fake)
-  reader = PdfReader("filename.pdf")
+  reader = PdfReader("f2.pdf")
   text = ""
   for page in reader.pages:
       text += page.extract_text() + "\n"
   with open('readme.txt', 'w') as f:
       f.write(text)
   
-  preprocessor = PreProcessor(split_length=500)
+  preprocessor = PreProcessor(split_length=100)
 
   indexing_pipeline = Pipeline()
   indexing_pipeline.add_node(component=converter, name="PDFConverter", inputs=["File"])
