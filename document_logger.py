@@ -37,20 +37,22 @@ class DocumentLogger(BaseComponent):
                         {"role": "system",
                          "content": "Extract timeline events from this paragraph, use the following format. Write N/A if the line does not have an event associated with it. "+"""
                          {
-	"event_name": "event name",
-	"event_description": "event description",
-	"time": "mm-dd-yyyy mm-dd-yyyy"
-}
+                          "event_name": "event name",
+                          "event_description": "event description",
+                          "start_time": "mm-dd-yyyy",
+                          "end_time": "mm-dd-yyyy"
+                        }
                          """},
                         {"role": "user",
                          "content": "In or about July 2016, Jha wrote and implemented computer code with his co-conspirators that enabled them to control and direct devices infected with the Mirai malware. Over 300,000 devices ultimately became part of the Mirai botnet and were used by Jha and others to unlawfully participate in DDOS attacks and other criminal activity. Some of these devices were located in the District of Alaska."},
                         {"role": "assistant",
                          "content": """
                          {
-	"event_name": "Imposition of Sentence on Paras Jha",
-	"event_description": "The court hearing for the imposition of sentence on Paras Jha took place",
-	"time": "09-18-2018 09-18-2018"
-}
+                          "event_name": "Imposition of Sentence on Paras Jha",
+                          "event_description": "The court hearing for the imposition of sentence on Paras Jha took place",
+                          "start_time": "mm-dd-yyyy",
+                          "end_time": "mm-dd-yyyy"
+                        }
                          """},
                         {"role": "user",
                          "content": str(doc.content.replace("\'", "\""))}
