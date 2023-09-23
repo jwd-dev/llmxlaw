@@ -65,7 +65,7 @@ def query_index(query: str, top_k: Optional[int] = 5):
                                           """,
                                  output_parser=AnswerParser())
   prompt_node = PromptNode(model_name_or_path="gpt-4",
-                         api_key="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",
+                         api_key=os.getenv("OPENAI_API_KEY"),
                          default_prompt_template=prompt_template)
 
   query_pipeline.add_node(component=retriever, name="Retriever", inputs=["Query"])
@@ -75,4 +75,4 @@ def query_index(query: str, top_k: Optional[int] = 5):
   return result
 
 if __name__ == "__main__":
-  uvicorn.run(app, host="0.0.0.0", port=8000)
+  uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
