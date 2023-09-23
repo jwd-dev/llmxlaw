@@ -1,44 +1,18 @@
-from pathlib import Path
-
-from haystack import Pipeline
-from haystack.nodes import MarkdownConverter, PreProcessor, PDFToTextConverter, TextConverter
+from haystack.pipelines import Pipeline
+from haystack.nodes import PreProcessor, TextConverter
 from haystack.document_stores import WeaviateDocumentStore
-from haystack.nodes import AnswerParser, EmbeddingRetriever, PromptNode, PromptTemplate
+from haystack.nodes import EmbeddingRetriever
 import logging
-from typing import Dict, List, Tuple, Optional
-from haystack.schema import Document
-from haystack.nodes.base import BaseComponent
 from pypdf import PdfReader
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+from document_logger import DocumentLogger
 
 logger = logging.getLogger(__name__)
 
-
-class DocumentLogger(BaseComponent):
-    """
-    Custom node that logs the content of documents to the console.
-    """
-
-    outgoing_edges = 1
-
-    def run(
-            self,
-            documents: Optional[List[Document]] = None,
-            **kwargs
-    ) -> Tuple[Dict, str]:
-        """
-        Log the content of each document to the console.
-
-        :param documents: List of documents to log.
-        :return: The same list of documents without any modification.
-        """
-        if documents:
-            for doc in documents:
-                print(f"Document ID: {doc.id}, Content: {doc.content}")
-
-        return {"documents": documents}, "output_1"
-
-    def run_batch(self, **kwargs):
-        return self.run(**kwargs)
 
 
 document_store = WeaviateDocumentStore(host="http://localhost",
@@ -58,7 +32,7 @@ retriever = EmbeddingRetriever(
     document_store=document_store,
     batch_size=8,
     embedding_model="text-embedding-ada-002",
-    api_key="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",
+    api_key=os.getenv("OPENAI_API_KEY"),
     max_seq_len=1536
 )
 indexing_pipeline = Pipeline()

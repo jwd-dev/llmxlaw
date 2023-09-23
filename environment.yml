@@ -1,0 +1,9 @@
+name: llmslaw
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+    - farm-haystack
+    - weaviate-client
