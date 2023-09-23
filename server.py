@@ -83,26 +83,7 @@ def query_index(body: dict):
 
 @app.post("/list_timeline")
 def query_index(body: dict):
-  query = body.get('query')
-  top_k = body.get('top_k', 5)
-  # Code from main.py to query index
-  query_pipeline = Pipeline()
-
-  prompt_template = PromptTemplate(prompt=""""Given the provided Documents, answer the Query. Make your answer detailed and long\n
-                                              Query: {query}\n
-                                              Documents: {join(documents)}
-                                              Answer:
-                                          """,
-                                 output_parser=AnswerParser())
-  prompt_node = PromptNode(model_name_or_path="gpt-4",
-                         api_key=os.getenv("OPENAI_API_KEY"),
-                         default_prompt_template=prompt_template)
-
-  query_pipeline.add_node(component=retriever, name="Retriever", inputs=["Query"])
-  query_pipeline.add_node(component=prompt_node, name="PromptNode", inputs=["Retriever"])
-
-  result = query_pipeline.run(query=query, params={"Retriever": {"top_k": top_k}})
-  return result
+  print(database.query_events())
 
 
 if __name__ == "__main__":
