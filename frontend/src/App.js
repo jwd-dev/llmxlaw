@@ -37,7 +37,8 @@ const App = () => {
   return (
       <div style={{ width: '500px', height: '950px' }}>
         {/* {{ items[0] }} */}
-        <Chrono items={items} mode="VERTICAL" />
+
+        {items.length > 0 && <Chrono items={items} mode="VERTICAL" />}
       </div>
   )
 }
