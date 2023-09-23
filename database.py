@@ -16,9 +16,9 @@ class Database:
     """)
 
 
-  def add_event(self, eventName, description, datetime, referenced_documents=""):
+  def add_event(self, eventName, description, start_time, end_time, referenced_documents=""):
     c.execute("INSERT INTO 'Events' ('eventName', 'description', 'start_time', 'end_time', 'referencedDocuments') VALUES (?, ?, ?, ?, ?)",
-              (eventName, description, datetime, referenced_documents))
+              (eventName, description, start_time, end_time, referenced_documents))
     conn.commit()
 
   def query_events(self):
