@@ -53,8 +53,13 @@ def create_index():
   indexing_pipeline.run(file_paths=['readme.txt'])
   return {"message": "Index created"}
 
-@app.get("/query_index")
-def query_index(query: str, top_k: Optional[int] = 5):
+# curl -X POST "http://0.0.0.0:8000/query_index" \
+#      -H "Content-Type: application/json" \
+#      -d '{"query": "DDOS", "top_k": 5}'
+@app.post("/query_index")
+def query_index(body: dict):
+  query = body.get('query')
+  top_k = body.get('top_k', 5)
   # Code from main.py to query index
   query_pipeline = Pipeline()
 
@@ -75,4 +80,4 @@ def query_index(query: str, top_k: Optional[int] = 5):
   return result
 
 if __name__ == "__main__":
-  uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+  uvicorn.run(app, host="0.0.0.0", port=8000)
