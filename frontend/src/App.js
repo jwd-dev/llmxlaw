@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
+import { Chrono } from "react-chrono";
 
-function App() {
+const App = () => {
+
+  const items = [{
+    title: "May 1940",
+    cardTitle: "Dunkirk",
+    url: "http://www.history.com",
+    cardSubtitle:"Men of the British Expeditionary Force (BEF) wade out to..",
+    cardDetailedText: "Men of the British Expeditionary Force (BEF) wade out to..",
+  },
+    {
+      title: "May 1940",
+      cardTitle: "Dunkirk",
+      url: "http://www.history.com",
+      cardSubtitle:"Men of the British Expeditionary Force (BEF) wade out to..",
+      cardDetailedText: "Men of the British Expeditionary Force (BEF) wade out to..",
+
+    },
+    {
+      title: "May 1940",
+      cardTitle: "Dunkirk",
+      url: "http://www.history.com",
+      cardSubtitle:"Men of the British Expeditionary Force (BEF) wade out to..",
+      cardDetailedText: "Men of the British Expeditionary Force (BEF) wade out to..",
+
+    }];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      <div style={{ width: '500px', height: '950px' }}>
+        <Chrono items={items} mode="VERTICAL" />
+      </div>
+  )
 }
 
 export default App;
