@@ -12,12 +12,14 @@ import os
 from dotenv import load_dotenv
 from document_logger import DocumentLogger
 import uvicorn
+from database import Database
 
 load_dotenv()
 
 app = FastAPI()
+database = Database()
 
-  # Code from main.py to create index
+# Code from main.py to create index
 document_store = WeaviateDocumentStore(host="http://localhost",
                                         port=8080,
                                         embedding_dim=768)

@@ -3,21 +3,26 @@ import sqlite3
 conn = sqlite3.connect(':memory:')
 c = conn.cursor()
 
-c.execute("""
-  CREATE TABLE "public"."Events" (
-    "eventName" text,
-    "description" text,
-    "datetime" text
-  )
-""")
+class Database:
+  def __init__(self) -> None:
+    c.execute("""
+      CREATE TABLE "Events" (
+        "eventName" text,
+        "description" text,
+        "datetime" text,
+        "referencedDocuments" text
+      )
+    """)
 
 
-def add_event(eventName, description, datetime):
-  c.execute("INSERT INTO 'public'.'Events' ('eventName', 'description', 'datetime') VALUES (?, ?, ?)",
-            (eventName, description, datetime))
-  conn.commit()
+  def add_event(self, eventName, description, datetime, referenced_documents=""):
+    c.execute("INSERT INTO 'Events' ('eventName', 'description', 'datetime', 'referencedDocuments') VALUES (?, ?, ?, ?)",
+              (eventName, description, datetime, referenced_documents))
+    conn.commit()
 
-def query_events():
-  c.execute("SELECT * FROM 'public'.'Events'")
-  return c.fetchall()
+  def query_events(self):
+    c.execute("SELECT * FROM 'Events'")
+    return c.fetchall()
 
+# add_event("Imposition of Sentence on Paras Jha", "The court hearing for the imposition of sentence on Paras Jha took place", "09-18-2018 09-18-2018")
+# print(query_events())
