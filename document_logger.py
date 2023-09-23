@@ -1,11 +1,15 @@
+import json
 from typing import Dict, List, Tuple, Optional
+
+import openai
+from haystack import Document
 from haystack.nodes.base import BaseComponent
-from haystack.schema import Document
 
 class DocumentLogger(BaseComponent):
     """
     Custom node that logs the content of documents to the console.
     """
+
 
     outgoing_edges = 1
 
@@ -22,9 +26,28 @@ class DocumentLogger(BaseComponent):
         """
         if documents:
             for doc in documents:
-                print(f"Document ID: {doc.id}, Content: {doc.content}")
+                response = openai.ChatCompletion.create(
+                    model="gpt-4",
+                    api_key='xxx',
+                    messages=[
+                        {"role": "system",
+                         "content": "Extract timeline events from this paragraph, use the following format. Write N/A if the line does not have an event associated with it. {'event_name','event_description', 'mm-dd-yyyy mm-dd-yyyy'}"},
+                        {"role": "user",
+                         "content": "In or about July 2016, Jha wrote and implemented computer code with his co-conspirators that enabled them to control and direct devices infected with the Mirai malware. Over 300,000 devices ultimately became part of the Mirai botnet and were used by Jha and others to unlawfully participate in DDOS attacks and other criminal activity. Some of these devices were located in the District of Alaska."},
+                        {"role": "assistant",
+                         "content": "{'computer code written', 'jha wrote and implemented computer code that was teh mirai malware', '07-01-2016 07-01-2016"},
+                        {"role": "user",
+                         "content": str(doc.content)}
+                    ]
+                )
+                try:
+                    print(json.loads(response.choices[0].message.content))
+                except:
+                    pass
 
         return {"documents": documents}, "output_1"
 
     def run_batch(self, **kwargs):
         return self.run(**kwargs)
+
+
