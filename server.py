@@ -11,6 +11,7 @@ from haystack.nodes import AnswerParser, EmbeddingRetriever, PromptNode, PromptT
 import os
 from dotenv import load_dotenv
 from document_logger import DocumentLogger
+import uvicorn
 
 load_dotenv()
 
@@ -72,3 +73,6 @@ def query_index(query: str, top_k: Optional[int] = 5):
 
   result = query_pipeline.run(query=query, params={"Retriever": {"top_k": top_k}})
   return result
+
+if __name__ == "__main__":
+  uvicorn.run(app, host="0.0.0.0", port=8000)
