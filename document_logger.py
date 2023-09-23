@@ -13,6 +13,9 @@ class DocumentLogger(BaseComponent):
     Custom node that logs the content of documents to the console.
     """
 
+    def __init__(self, database):
+        self.db = database
+
 
     outgoing_edges = 1
 
@@ -61,11 +64,12 @@ class DocumentLogger(BaseComponent):
                     ]
                 )
                 try:
-                    if json.loads(response.choices[0].message.content)['time'] != "N/A":
+                    if json.loads(response.choices[0].message.content)['start_time'] != "N/A" and json.loads(response.choices[0].message.content)['start_time'] != "mm-dd-yyyy":
                         document = json.loads(response.choices[0].message.content)
-                        from llmxlaw import server
-                        server.database_fake.append([document['event_name'], document['event_description'], document['start_time'], document['end_time'], doc.id])
-                except:
+                        print(document)
+                        self.db.append([document['event_name'], document['event_description'], document['start_time'], document['end_time'], doc.id])
+                except Exception as e:
+                    print(e)
                     print(response.choices[0].message.content)
 
         return {"documents": documents}, "output_1"

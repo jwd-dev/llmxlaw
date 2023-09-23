@@ -33,9 +33,9 @@ retriever = EmbeddingRetriever(
     max_seq_len=1536
   )
 
-@app.post("/create_index")
+@app.get("/create_index")
 def create_index():
-  timeline_finder = DocumentLogger()
+  timeline_finder = DocumentLogger(database_fake)
   reader = PdfReader("filename.pdf")
   text = ""
   for page in reader.pages:
@@ -83,7 +83,7 @@ def query_index(body: dict):
 
 @app.get("/list_timeline")
 def query_index():
-  print(database_fake)
+  return database_fake
 
 
 if __name__ == "__main__":
